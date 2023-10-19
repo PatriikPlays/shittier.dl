@@ -273,8 +273,13 @@ fastify.post("/link/create/:filename", async (req, res) => {
         }
     }
 
-    return res.send(await new Promise((resolve) => {
-        let id = generateID(8);
+    return res.send(await new Promise(async (resolve) => {
+        let id;
+
+        while (true) {
+            id = generateID(8);
+            if (!await db.resolveLink(id)) break;
+        }
 
         db.addLink(id, filename).then(()=>{
             return resolve({ ok: true, link: id })
