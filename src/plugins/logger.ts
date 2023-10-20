@@ -10,7 +10,7 @@ declare module 'fastify' {
 export default fp(async (fastify, options) => {
   const logger: Logger<ILogObj> = new Logger({
     name: 'shittier.dl',
-    prettyLogTemplate: '{{yyyy}}-{{mm}}-{{dd}}T{{hh}}:{{MM}}:{{ss}}Z {{logLevelName}}\t',
+    prettyLogTemplate: '{{yyyy}}-{{mm}}-{{dd}}T{{hh}}:{{MM}}:{{ss}}.{{ms}}Z {{logLevelName}}\t',
     prettyLogTimeZone: 'UTC',
   });
 

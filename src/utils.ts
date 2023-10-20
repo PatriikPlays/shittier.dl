@@ -1,4 +1,4 @@
-function generateID(length) {
+function generateID(length: number) {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let id = "";
 

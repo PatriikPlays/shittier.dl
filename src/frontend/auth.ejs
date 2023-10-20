@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login to shittier.dl</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+  <script>
+    function submitForm(ev) {
+      ev.preventDefault();
+
+      var password = document.getElementById("password").value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/v1/auth/login", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = function() {
+        var response = JSON.parse(xhr.responseText);
+
+        if (response.ok) {
+          let jwt = response.data;
+          // save cookie
+        } else {
+          alert(`${response.error || ""}: ${response.message || ""}`)
+        }
+      };
+      
+      xhr.send(JSON.stringify({ password }));
+    }
+  </script>
+</head>
+
+
+<body>
+  <main class="container">
+    <h1>Login for free cookies</h1>
+
+    <form onsubmit="submitForm(event)">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Login</button>
+    </form>
+  </main>
+
+  <footer class="container">
+    <blockquote>
+      "Beware the apioforms, they strike at night, you will never see them coming."
+      <cite>- Aiden Pratt</cite>
+    </blockquote>
+
+    <p>Powered by <strong>shittier.dl</strong></p>
+  </footer>
+
+</body>
+
+<script>
+const quotes = [
+  "Beware the apioforms, they strike at night, you will never see them coming.|Aiden Pratt",
+  "Capitalism is an economic system based on the private ownership of the means of production and their operation for profit. Characteristics central to capitalism include private property, capital accumulation, wage labor, voluntary exchange, a price system and competitive markets.|ChatGPT and Dimaguy",
+  "owo trash sign|Patriik",
+  "shovel.|Smart person",
+  "The year is 2000, but where are the flying cars? I can't see any flying cars!?! Why? Why? Why? Because people all around the world worked 24 hours a day 7 days a week to make the internet. You don't need flying cars, but you will need shittier.dl|PC_Cat",
+]
+
+const quoteElm = document.querySelector("blockquote");
+const quoteParts = quotes[Math.floor(Math.random() * quotes.length)].split("|");
+console.log(quoteParts)
+quoteElm.innerHTML = `"${quoteParts[0]}"
+<footer><cite>- ${quoteParts[1]}</cite></footer>`;
+</script>
+
+</html>
