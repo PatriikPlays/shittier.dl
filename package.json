@@ -1,19 +1,24 @@
 {
-  "name": "shittier.dl",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "name": "shittier-download",
+  "version": "0.1.0",
+  "description": "Heavyweight featurecreep file hosting server in Typescript",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pixium/shittier.dl.git"
+  },
+  "author": "Pixium",
+  "license": "AGPL-3.0",
   "dependencies": {
     "@fastify/cookie": "^9.1.0",
     "@fastify/jwt": "^7.2.2",
     "@fastify/multipart": "^8.0.0",
+    "@fastify/type-provider-typebox": "^3.5.0",
     "@fastify/view": "^8.2.0",
+    "@sinclair/typebox": "^0.31.18",
     "fastify": "^4.24.3",
     "fastify-plugin": "^4.5.1",
     "luxon": "^3.4.3",
@@ -21,6 +26,12 @@
     "sanitize-filename": "^1.6.3",
     "sqlite3": "^5.1.6",
     "tslog": "^4.9.2",
+    "typescript": "^5.2.2",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.3.3",
+    "@types/node": "^20.8.7",
+    "@types/pump": "^1.1.2"
   }
 }

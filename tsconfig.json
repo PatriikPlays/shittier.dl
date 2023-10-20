@@ -1,0 +1,17 @@
+/* Visit https://aka.ms/tsconfig to read more about this file */
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "target": "ES2016",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "./dist",
+    "newLine": "lf"
+  }
+}
