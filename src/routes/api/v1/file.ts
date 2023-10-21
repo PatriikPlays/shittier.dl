@@ -1,10 +1,10 @@
 import { ShittierError } from "../../../plugins/error";
-import { authHook } from "../../../utils";
 import { Type } from "@fastify/type-provider-typebox";
 import sanitizeFilename from "sanitize-filename";
 import path from "node:path";
 import fs from "node:fs";
 import pump from "pump";
+import { FastifyReply, FastifyRequest } from "fastify";
 
 // this is a bad string search function, and is temporary
 function stringSearch(str: string, pattern: string) {
@@ -26,6 +26,8 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
     fastify.route({
         method: "GET",
         url: "/get/:filename",
+        onRequest: (req: FastifyRequest, reply: FastifyReply) => fastify.authenticate(req, reply),
+        
         schema: {
             params: Type.Object({
                 filename: Type.String({
@@ -34,7 +36,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }),
             }),
         },
-        preHandler: authHook,
+
         handler: async (req: any, res: any) => {
             const { filename } = req.params;
 
@@ -55,7 +57,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
     fastify.route({
         method: "POST",
         url: "/upload",
-        preHandler: authHook,
+        onRequest: fastify.authenticateHook,
         handler: async (req: any, res: any) => {
             const data = await req.file();
             const file = data.file;
@@ -113,7 +115,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }),
             }),
         },
-        preHandler: authHook,
+        onRequest: fastify.authenticateHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
 
@@ -181,7 +183,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        preHandler: authHook,
+        onRequest: fastify.authenticateHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
             let newName = req.query.newName;
@@ -277,7 +279,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }
             }
         },
-        preHandler: authHook,
+        onRequest: fastify.authenticateHook,
         handler: async (req: any, res: any) => {
             let p = path.join(fastify.base, "data", "files");
 

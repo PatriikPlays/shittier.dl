@@ -6,6 +6,7 @@ import multipartPlugin from "./plugins/multipart";
 import dbPlugin from "./plugins/db"
 import fastifyFormbody from "@fastify/formbody";
 import viewPlugin from "@fastify/view";
+import jwtPlugin from "./plugins/jwt";
 import fastifyJWT from "@fastify/jwt";
 import ejs from "ejs";
 import { setErrorHandler } from "./plugins/error";
@@ -18,7 +19,6 @@ const base = path.join(__dirname, "..");
 
 (async () => {
     if (!process.env.PASSWORD) return console.log("Missing PASSWORD env variable");
-    if (!process.env.JWT_SECRET) return console.log("Missing JWT_SECRET env variable"); // regen JWT_SECRET to invalidate all JWTs (JWTs will stay valid when password gets changed)
     // TODO: more error handling here
 
     const fastify = Fastify({
@@ -33,14 +33,9 @@ const base = path.join(__dirname, "..");
     }
 
     fastify.decorate("base", base);
-    
-    fastify.decorateRequest('fastify', fastify);
 
     await fastify.register(loggerPlugin);
-    await fastify.register(fastifyJWT, {
-        secret: process.env.JWT_SECRET,
-        sign: { expiresIn: "90d" }
-    });
+    await fastify.register(jwtPlugin);
     await fastify.register(fastifyFormbody);
     await fastify.register(dbPlugin, { dbPath: path.join(base, "data", "db.sqlite") })
     await fastify.register(multipartPlugin);

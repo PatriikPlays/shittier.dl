@@ -1,5 +1,4 @@
 import { ShittierError } from "../../../plugins/error";
-import { authHook } from "../../../utils";
 import { Type } from "@fastify/type-provider-typebox";
 
 export default function(fastify: any, ops: any, done: any) { // TODO: properly do types here
@@ -26,7 +25,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
     fastify.route({
         method: "POST",
         url: "/verify",
-        preHandler: authHook,
+        onRequest: fastify.authenticateHook,
         handler: async (req: any, res: any)=>{
             res.send({ ok: true });
         }
