@@ -9,7 +9,8 @@
 </head>
 
 <body>
-  
+  <button class="logoutButton" onclick="logout()">logout</button>
+
   <header>
     <h1>Gallery (<%=files.length%>)</h1>
   </header>
@@ -59,6 +60,11 @@ document.querySelectorAll("#delete").forEach((v) => {
     alert("Your mom.")
   })
 })
+
+function logout() {
+  document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+  window.location.href = "/auth"
+}
 </script>
 
 <style>
@@ -128,6 +134,18 @@ header > p {
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+.logoutButton {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: 0;
+  padding: 4px;
+  line-height: 1;
+  width: auto;
+  height: auto;
+  color:#e22;
 }
 
 .buttonicon {
