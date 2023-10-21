@@ -47,60 +47,70 @@ const base = path.join(__dirname, "..");
     });
     setErrorHandler(fastify);
 
-    fastify.get("/auth", async (req, res) => {
-        return res.view("src/frontend/auth.ejs");
+    fastify.route({
+        method: "GET",
+        url: "/auth",
+        handler: async (req, res) => {
+            return res.view("src/frontend/auth.ejs");
+        }
     });
-    fastify.get("/gallery", async (req, res) => {
-        const testData = [
-            {
-                name: "logs.png",
-                src: "https://i.pixium.lol/logs.png"
-            },
-            {
-                name: "logs.png",
-                src: "https://i.pixium.lol/logs.png"
-            },
-            {
-                name: "logs.png",
-                src: "https://i.pixium.lol/logs.png"
-            },
-            {
-                name: "logs.png",
-                src: "https://i.pixium.lol/logs.png"
-            },
-            {
-                name: "logs.png",
-                src: "https://i.pixium.lol/logs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-            {
-                name: "6_4isanadmin.png",
-                src: "https://i.pixium.lol/3OVxs.png"
-            },
-        ];
 
-        return res.view("src/frontend/gallery.ejs", {
-            files: testData
-        });
+    fastify.route({
+        method: "GET",
+        url: "/gallery",
+        onRequest: fastify.authenticate, // TODO: This should redirect to the auth page
+        handler: async (req, res) => {
+            const testData = [
+                {
+                    name: "logs.png",
+                    src: "https://i.pixium.lol/logs.png"
+                },
+                {
+                    name: "logs.png",
+                    src: "https://i.pixium.lol/logs.png"
+                },
+                {
+                    name: "logs.png",
+                    src: "https://i.pixium.lol/logs.png"
+                },
+                {
+                    name: "logs.png",
+                    src: "https://i.pixium.lol/logs.png"
+                },
+                {
+                    name: "logs.png",
+                    src: "https://i.pixium.lol/logs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+                {
+                    name: "6_4isanadmin.png",
+                    src: "https://i.pixium.lol/3OVxs.png"
+                },
+            ];
+    
+            return res.view("src/frontend/gallery.ejs", {
+                files: testData
+            });
+        }
     });
     
     fastify.register(require("./routes/api/v1/api"), { prefix: "/api/v1" })

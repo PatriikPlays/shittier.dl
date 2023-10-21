@@ -21,13 +21,36 @@
 
         if (response.ok) {
           let jwt = response.data;
-          // save cookie
+          document.cookie = "token="+jwt;
+          window.location.href = "/gallery"
         } else {
           alert(`${response.error || ""}: ${response.message || ""}`)
         }
       };
       
       xhr.send(JSON.stringify({ password }));
+    }
+
+    // js is awesome
+    const cookies = document.cookie.split(";").map(x=>x.split("=")).reduce((x,[k,v])=>{x[decodeURIComponent(k.trim())]=decodeURIComponent(v.trim()); return x}, {})
+
+    console.log(cookies)
+
+    if (cookies.token) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/v1/auth/verify", true);
+      xhr.onload = function() {
+        var response = JSON.parse(xhr.responseText);
+
+        if (response.ok) {
+          window.location.href = "/gallery"
+        } else {
+          console.log(response);
+          document.cookie = "";
+        }
+      };
+
+      xhr.send();
     }
   </script>
 </head>
