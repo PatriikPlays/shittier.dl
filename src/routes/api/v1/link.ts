@@ -4,10 +4,9 @@ import path from "node:path";
 import fs from "node:fs";
 import { generateID } from "../../../utils";
 import { Type } from "@fastify/type-provider-typebox";
-
+import { authHook } from "../../../utils";
 
 export default function(fastify: any, ops: any, done: any) { // TODO: properly do types here
-    // TODO: Add auth
     fastify.route({
         method: "POST",
         url: "/create/:filename",
@@ -19,6 +18,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
     
@@ -68,7 +68,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     })
 
-    // TODO: Add auth
     fastify.route({
         method: "POST",
         url: "/revoke/:linkid",
@@ -80,6 +79,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let linkid = req.params.linkid;
     
@@ -103,7 +103,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     })
 
-    // TODO: Add auth
     fastify.route({
         method: "GET",
         url: "/list/:filename",
@@ -115,6 +114,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
     
@@ -161,7 +161,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     })
 
-    // TODO: Add auth
     fastify.route({
         method: "GET",
         url: "/resolve/:linkid",
@@ -173,6 +172,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let linkid = req.params.linkid;
     

@@ -1,4 +1,5 @@
 import { ShittierError } from "../../../plugins/error";
+import { authHook } from "../../../utils";
 import { Type } from "@fastify/type-provider-typebox";
 import sanitizeFilename from "sanitize-filename";
 import path from "node:path";
@@ -22,7 +23,6 @@ function stringSearch(str: string, pattern: string) {
 }
 
 export default function(fastify: any, ops: any, done: any) { // TODO: properly do types here
-    // TODO: Add auth
     fastify.route({
         method: "GET",
         url: "/get/:filename",
@@ -34,6 +34,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }),
             }),
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             const { filename } = req.params;
 
@@ -51,10 +52,10 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         },
     });
 
-    // TODO: Add auth
     fastify.route({
         method: "POST",
         url: "/upload",
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             const data = await req.file();
             const file = data.file;
@@ -100,7 +101,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     });
 
-    // TODO: Add auth
     // uses post for cc compat
     fastify.route({
         method: "POST",
@@ -113,6 +113,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }),
             }),
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
 
@@ -162,7 +163,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     });
 
-    // TODO: Add auth
     // uses post for cc compat
     fastify.route({
         method: "POST",
@@ -181,6 +181,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
             let newName = req.query.newName;
@@ -255,7 +256,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
         }
     });
 
-    // TODO: Add auth
     // TODO: Somehow implement filtering for no file extension
     // TODO: Make better filename matching
     fastify.route({
@@ -277,6 +277,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }
             }
         },
+        preHandler: authHook,
         handler: async (req: any, res: any) => {
             let p = path.join(fastify.base, "data", "files");
 

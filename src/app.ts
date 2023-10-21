@@ -33,6 +33,9 @@ const base = path.join(__dirname, "..");
     }
 
     fastify.decorate("base", base);
+    
+    fastify.decorateRequest('fastify', fastify);
+
     await fastify.register(loggerPlugin);
     await fastify.register(fastifyJWT, {
         secret: process.env.JWT_SECRET,
