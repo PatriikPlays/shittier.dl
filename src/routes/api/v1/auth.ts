@@ -25,7 +25,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
     fastify.route({
         method: "POST",
         url: "/verify",
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any)=>{
             res.send({ ok: true });
         }

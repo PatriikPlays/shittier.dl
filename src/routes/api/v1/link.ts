@@ -17,7 +17,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
     
@@ -78,7 +78,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let linkid = req.params.linkid;
     
@@ -113,7 +113,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
     
@@ -171,7 +171,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let linkid = req.params.linkid;
     

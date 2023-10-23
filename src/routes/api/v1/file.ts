@@ -57,7 +57,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
     fastify.route({
         method: "POST",
         url: "/upload",
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             const data = await req.file();
             const file = data.file;
@@ -115,7 +115,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }),
             }),
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
 
@@ -183,7 +183,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 })
             })
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let filename = req.params.filename;
             let newName = req.query.newName;
@@ -279,7 +279,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 }
             }
         },
-        onRequest: fastify.authenticateHook,
+        onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
             let p = path.join(fastify.base, "data", "files");
 

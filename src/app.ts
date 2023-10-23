@@ -58,7 +58,14 @@ const base = path.join(__dirname, "..");
     fastify.route({
         method: "GET",
         url: "/gallery",
-        onRequest: fastify.authenticate, // TODO: This should redirect to the auth page
+        onRequest: async (req: any, res: any) => {
+            try {
+                await req.jwtVerify();
+            } catch (err) {
+                res.redirect("/auth");
+                req.server.logger.debug("User not authenticated.");
+            }
+        }, // TODO: This should redirect to the auth page
         handler: async (req, res) => {
             const testData = [
                 {
