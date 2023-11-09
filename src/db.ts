@@ -1,89 +1,59 @@
-import sqlite3 from 'sqlite3';
+import { Database as sqlite } from "bun:sqlite";
 
 class DB {
-    db: sqlite3.Database;
+    db: sqlite;
 
     constructor(path: string) {
-        this.db = new sqlite3.Database(path);
+        this.db = new sqlite(path, {
+            create: true,
+        });
 
-        this.db.serialize(() => {
-            this.db.run("CREATE TABLE IF NOT EXISTS links (link_id TEXT, filename TEXT)")
-        })
+        this.db.run(
+            "CREATE TABLE IF NOT EXISTS links (link_id TEXT, filename TEXT)"
+        );
     }
 
     resolveLink(link: string) {
-        return new Promise((resolve, reject) => {
-            this.db.get("SELECT filename FROM links WHERE link_id = ?", [link], (err, row: any) => {
-                if (err) {
-                    return reject(err);
-                }
-                if (row) {
-                    resolve(row.filename);
-                } else {
-                    resolve(null);
-                }
-            })
-        })
+        // Todo: Make this nicer
+        const query = this.db
+            .query("SELECT filename FROM links WHERE link_id = ?")
+            .get(link);
+        const response = query as string | undefined;
+
+        if (!response) return null;
+        return response;
     }
 
     addLink(link: string, filename: string) {
-        return new Promise((resolve, reject) => {
-            this.db.run("INSERT INTO links (link_id, filename) VALUES (?, ?)", [link, filename], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(undefined);
-                }
-            });
-        });
+        this.db.run("INSERT INTO links (link_id, filename) VALUES (?, ?)", [
+            filename,
+            link,
+        ]);
     }
 
     setLink(link: string, filename: string) {
-        return new Promise((resolve, reject) => {
-            this.db.run("UPDATE links SET filename = ? WHERE link_id = ?", [filename, link], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(undefined);
-                }
-            });
-        });
+        this.db.run("UPDATE links SET filename = ? WHERE link_id = ?", [
+            filename,
+            link,
+        ]);
     }
 
     revokeLink(link: string) {
-        return new Promise((resolve, reject) => {
-            this.db.run("DELETE FROM links WHERE link_id = ?", [link], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(this.changes > 0);
-                }
-            });
-        });
+        this.db.run("DELETE FROM links WHERE link_id = ?", [link]);
     }
 
     listLinks(filename: string) {
-        return new Promise((resolve, reject) => {
-            this.db.all("SELECT link_id FROM links WHERE filename = ?", [filename], function(err, rows) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(rows.map((row: any) => row.link_id));
-                }
-            });
-        })
+        const query = this.db
+            .query("SELECT link_id FROM links WHERE filename = ?")
+            .all(filename);
+        const response = query as string[] | undefined;
+
+        if (!response) return null;
+        return response;
     }
 
     deleteLinksPointingToFile(filename: string) {
-        return new Promise((resolve, reject) => {
-            this.db.run("DELETE FROM links WHERE filename = ?", [filename], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(null);
-                }
-            });
-        });
+        this.db.run("DELETE FROM links WHERE filename = ?", [filename]);
     }
 }
 

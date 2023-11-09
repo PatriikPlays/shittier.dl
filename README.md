@@ -9,6 +9,24 @@
 
 Inspired by [shitty.dl], here comes shittier.dl! Simply said, shittier.dl is a simple file cdn for private use.
 
-# NOT PRODUCTION READY YET
+## Developing
+
+Thanks for your interest in shittier.dl!
+To get started you need to install the [Bun](https://bun.sh) typescript runtime.
+
+To run:
+
+```bash
+bun run start
+```
+
+## Vocabulary
+
+| Term         | Definition                                        | Example                                 |
+| ------------ | ------------------------------------------------- | --------------------------------------- |
+| File         | A file                                            | `magicalFile.png`                       |
+| Public file  | A file publicly accessible by anyone with the URL | `https://i.example.com/publicFile.png`  |
+| Private file | A file only accessible by logged in users         | `https://i.example.com/privateFile.png` |
+| Link         | A link                                            |
 
 [shitty.dl]: https://github.com/tmpim/shitty.dl

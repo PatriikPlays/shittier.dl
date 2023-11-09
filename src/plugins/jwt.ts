@@ -34,8 +34,8 @@ async function authenticateHook<
 }
 
 export default fp(async (fastify, options) => {
-
-    if (!process.env.JWT_SECRET) throw new Error("Missing JWT_SECRET env variable"); // regen JWT_SECRET to invalidate all JWTs (JWTs will stay valid when password gets changed)
+    if (!process.env.JWT_SECRET)
+        throw new Error("Missing JWT_SECRET env variable"); // regen JWT_SECRET to invalidate all JWTs (JWTs will stay valid when password gets changed)
 
     fastify.register(fastifyJwt, {
         secret: process.env.JWT_SECRET,
@@ -47,5 +47,5 @@ export default fp(async (fastify, options) => {
 
     fastify.decorate("authenticate", authenticateHook);
 
-    fastify.logger.debug("Initialized JWT plugin")
+    fastify.logger.debug("Initialized JWT plugin");
 });

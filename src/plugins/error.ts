@@ -30,8 +30,8 @@ export function setErrorHandler(fastify: FastifyInstance) {
                 ok: false,
                 error: httpStatusCodes.getStatusText(400),
                 statusCode: 400,
-                message: error.message
-            })
+                message: error.message,
+            });
         } else {
             fastify.logger.error(error);
             res.status(500).send({

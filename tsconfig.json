@@ -1,17 +1,23 @@
 /* Visit https://aka.ms/tsconfig to read more about this file */
 {
-  "compilerOptions": {
-    "skipLibCheck": true,
-    "target": "ES2016",
-    "module": "commonjs",
-    "rootDir": "./src",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "declaration": false,
-    "declarationMap": false,
-    "outDir": "./dist",
-    "newLine": "lf"
-  }
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "skipLibCheck": true,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "moduleDetection": "force",
+        "rootDir": "./src",
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "composite": true,
+        "strict": true,
+        "downlevelIteration": true,
+        "resolveJsonModule": true,
+        "outDir": "./dist",
+        "newLine": "lf",
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": ["bun-types"]
+    }
 }

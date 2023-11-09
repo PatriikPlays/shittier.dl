@@ -1,7 +1,6 @@
-import { ShittierError } from "./plugins/error";
-
 function generateID(length: number) {
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let id = "";
 
     for (let i = 0; i < length; i++)
@@ -10,4 +9,4 @@ function generateID(length: number) {
     return id;
 }
 
-export { generateID }
+export { generateID };

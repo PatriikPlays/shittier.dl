@@ -3,7 +3,7 @@
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import loggerPlugin from "./plugins/logger";
 import multipartPlugin from "./plugins/multipart";
-import dbPlugin from "./plugins/db"
+import dbPlugin from "./plugins/db";
 import fastifyFormbody from "@fastify/formbody";
 import viewPlugin from "@fastify/view";
 import jwtPlugin from "./plugins/jwt";
@@ -18,7 +18,8 @@ import fs from "node:fs";
 const base = path.join(__dirname, "..");
 
 (async () => {
-    if (!process.env.PASSWORD) return console.log("Missing PASSWORD env variable");
+    if (!process.env.PASSWORD)
+        return console.log("Missing PASSWORD env variable");
     // TODO: more error handling here
 
     const fastify = Fastify({
@@ -37,13 +38,15 @@ const base = path.join(__dirname, "..");
     await fastify.register(loggerPlugin);
     await fastify.register(jwtPlugin);
     await fastify.register(fastifyFormbody);
-    await fastify.register(dbPlugin, { dbPath: path.join(base, "data", "db.sqlite") })
+    await fastify.register(dbPlugin, {
+        dbPath: path.join(base, "data", "db.sqlite"),
+    });
     await fastify.register(multipartPlugin);
     await fastify.register(fastifyCookie);
     await fastify.register(viewPlugin, {
         engine: {
             ejs,
-        }
+        },
     });
     setErrorHandler(fastify);
 
@@ -52,7 +55,7 @@ const base = path.join(__dirname, "..");
         url: "/auth",
         handler: async (req, res) => {
             return res.view("src/frontend/auth.ejs");
-        }
+        },
     });
 
     fastify.route({
@@ -70,57 +73,57 @@ const base = path.join(__dirname, "..");
             const testData = [
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png"
+                    src: "https://i.pixium.lol/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png"
+                    src: "https://i.pixium.lol/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png"
+                    src: "https://i.pixium.lol/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png"
+                    src: "https://i.pixium.lol/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png"
+                    src: "https://i.pixium.lol/logs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png"
+                    src: "https://i.pixium.lol/3OVxs.png",
                 },
             ];
-    
+
             return res.view("src/frontend/gallery.ejs", {
-                files: testData
+                files: testData,
             });
-        }
+        },
     });
-    
-    fastify.register(require("./routes/api/v1/api"), { prefix: "/api/v1" })
+
+    fastify.register(require("./routes/api/v1/api"), { prefix: "/api/v1" });
 
     /*
     // dont put auth here
@@ -229,8 +232,11 @@ const base = path.join(__dirname, "..");
     //     });
     // }
 
-    fastify.listen({ port: 6900, host: "0.0.0.0", ipv6Only: false }, (err, address) => {
-        if (err) throw err;
-        fastify.logger.info(`Server listening on ${address}`);
-    });
+    fastify.listen(
+        { port: 6900, host: "0.0.0.0", ipv6Only: false },
+        (err, address) => {
+            if (err) throw err;
+            fastify.logger.info(`Server listening on ${address}`);
+        }
+    );
 })();
