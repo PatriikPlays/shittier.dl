@@ -1,27 +1,22 @@
-// TODO: implement file indexes in db
-
-import Fastify, { FastifyReply, FastifyRequest } from "fastify";
+import Fastify from "fastify";
 import loggerPlugin from "./plugins/logger";
 import multipartPlugin from "./plugins/multipart";
 import dbPlugin from "./plugins/db";
 import fastifyFormbody from "@fastify/formbody";
 import viewPlugin from "@fastify/view";
 import jwtPlugin from "./plugins/jwt";
-import fastifyJWT from "@fastify/jwt";
 import ejs from "ejs";
 import { setErrorHandler } from "./plugins/error";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifyCookie from "@fastify/cookie";
 import path from "node:path";
 import fs from "node:fs";
+import configPlugin from "./plugins/config";
+import fastifyStatic from "@fastify/static";
 
 const base = path.join(__dirname, "..");
 
 (async () => {
-    if (!process.env.PASSWORD)
-        return console.log("Missing PASSWORD env variable");
-    // TODO: more error handling here
-
     const fastify = Fastify({
         logger: false,
     }).withTypeProvider<TypeBoxTypeProvider>();
@@ -36,11 +31,10 @@ const base = path.join(__dirname, "..");
     fastify.decorate("base", base);
 
     await fastify.register(loggerPlugin);
+    await fastify.register(configPlugin);
+    await fastify.register(dbPlugin);
     await fastify.register(jwtPlugin);
     await fastify.register(fastifyFormbody);
-    await fastify.register(dbPlugin, {
-        dbPath: path.join(base, "data", "db.sqlite"),
-    });
     await fastify.register(multipartPlugin);
     await fastify.register(fastifyCookie);
     await fastify.register(viewPlugin, {
@@ -48,7 +42,18 @@ const base = path.join(__dirname, "..");
             ejs,
         },
     });
+    await fastify.register(fastifyStatic, {
+        root: path.join(__dirname, "frontend/static"),
+    });
     setErrorHandler(fastify);
+
+    fastify.route({
+        method: "GET",
+        url: "/",
+        handler: async (req, res) => {
+            res.redirect("/auth");
+        },
+    });
 
     fastify.route({
         method: "GET",
@@ -68,7 +73,7 @@ const base = path.join(__dirname, "..");
                 res.redirect("/auth");
                 req.server.logger.debug("User not authenticated.");
             }
-        }, // TODO: This should redirect to the auth page
+        },
         handler: async (req, res) => {
             const testData = [
                 {
@@ -189,7 +194,7 @@ const base = path.join(__dirname, "..");
         return res.code(200).send(stream); // TODO: check if this deals with mime types
     });
 
-    
+
 
     fastify.post("/authenticate", async (req, res) => {
         /*

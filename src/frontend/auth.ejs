@@ -8,59 +8,6 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
     />
-
-    <script>
-      function submitForm(ev) {
-        ev.preventDefault();
-
-        var password = document.getElementById("password").value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/v1/auth/login", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function () {
-          var response = JSON.parse(xhr.responseText);
-
-          if (response.ok) {
-            let jwt = response.data;
-            document.cookie = "token=" + jwt;
-            window.location.href = "/gallery";
-          } else {
-            alert(`${response.error || ""}: ${response.message || ""}`);
-          }
-        };
-
-        xhr.send(JSON.stringify({ password }));
-      }
-
-      // js is awesome
-      const cookies = document.cookie
-        .split(";")
-        .map((x) => x.split("="))
-        .reduce((x, [k, v]) => {
-          x[decodeURIComponent(k.trim())] = decodeURIComponent(v.trim());
-          return x;
-        }, {});
-
-      console.log(cookies);
-
-      if (cookies.token) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/v1/auth/verify", true);
-        xhr.onload = function () {
-          var response = JSON.parse(xhr.responseText);
-
-          if (response.ok) {
-            window.location.href = "/gallery";
-          } else {
-            console.log(response);
-            document.cookie = "";
-          }
-        };
-
-        xhr.send();
-      }
-    </script>
   </head>
 
   <body>
@@ -75,30 +22,45 @@
     </main>
 
     <footer class="container">
-      <blockquote>
-        "Beware the apioforms, they strike at night, you will never see them
-        coming."
-        <cite>- Aiden Pratt</cite>
-      </blockquote>
-
       <p>Powered by <strong>shittier.dl</strong></p>
     </footer>
   </body>
 
-  <script>
-    const quotes = [
-      "Beware the apioforms, they strike at night, you will never see them coming.|Aiden Pratt",
-      "Capitalism is an economic system based on the private ownership of the means of production and their operation for profit. Characteristics central to capitalism include private property, capital accumulation, wage labor, voluntary exchange, a price system and competitive markets.|ChatGPT and Dimaguy",
-      "owo trash sign|Patriik",
-      "shovel.|Smart person",
-      "The year is 2000, but where are the flying cars? I can't see any flying cars!?! Why? Why? Why? Because people all around the world worked 24 hours a day 7 days a week to make the internet. You don't need flying cars, but you will need shittier.dl|PC_Cat",
-    ];
+  <style>
+    p {
+      text-align: center;
+    }
+  </style>
 
-    const quoteElm = document.querySelector("blockquote");
-    const quoteParts =
-      quotes[Math.floor(Math.random() * quotes.length)].split("|");
-    console.log(quoteParts);
-    quoteElm.innerHTML = `"${quoteParts[0]}"
-<footer><cite>- ${quoteParts[1]}</cite></footer>`;
+  <script>
+    const button = document.querySelector("button");
+    const passwordField = document.querySelector("input");
+
+    async function submitForm(ev) {
+      ev.preventDefault();
+      button.setAttribute("aria-busy", "true");
+      const password = passwordField.value;
+      const response = await fetch(`/api/v1/auth/login`, {
+        method: "POST",
+        headers: {
+          "User-Agent": "ShitterDL frontend",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password,
+        }),
+      });
+      const data = await response.json();
+
+      if (data?.ok) {
+        const jwt = data.data;
+        document.cookie = "token=" + jwt;
+        location.href = "/gallery";
+      } else {
+        alert(`${response.error || ""}: ${response.message || ""}`);
+      }
+
+      button.setAttribute("aria-busy", "false");
+    }
   </script>
 </html>

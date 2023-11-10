@@ -4,18 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gallery</title>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-    />
+    /> -->
+    <link rel="stylesheet" href="/common.css" />
   </head>
 
   <body>
-    <button class="uploadButton" onclick="upload()">upload</button>
-    <button class="logoutButton" onclick="logout()">logout</button>
-
     <header>
       <h1>Gallery (<%=files.length%>)</h1>
+
+      <section>
+        <article>
+          <nav>
+            <a href="logout" role="button">Logout</a>
+            <a href="upload" role="button">Upload</a>
+          </nav>
+        </article>
+      </section>
     </header>
 
     <main>
@@ -79,123 +86,14 @@
         alert("Your mom.");
       });
     });
-
-    function logout() {
-      document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-      window.location.href = "/auth";
-    }
   </script>
 
   <style>
-    h1 {
-      text-align: center;
-    }
-
-    body > header {
-      padding-bottom: 2vh;
-    }
-
-    body > main {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 !important;
-    }
-
-    section {
-      display: flex;
-      flex-wrap: wrap;
-      width: 90%;
-      height: 25vh;
-      justify-content: center;
-      margin: 0;
-    }
-
-    article {
-      width: calc(12.5% - 1em);
-      height: 25vh;
-      margin: 1vh 0.4vw;
-      padding: 0 auto;
-      min-width: 150px;
-      box-sizing: border-box;
-    }
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-    }
-
-    article > header {
-      padding: 1vh;
-      margin-bottom: 1vh !important;
-      text-align: center;
-    }
-
-    article > main {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    header > p {
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 1.35vh;
-    }
-
-    .buttons {
-      margin: 1vh 0 0 0;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .logoutButton {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      margin: 0;
-      padding: 4px;
-      line-height: 1;
-      font-size: 1.75vh;
-      width: auto;
-      height: auto;
-      color: #e22;
-    }
-
-    .uploadButton {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      margin: 0;
-      padding: 4px;
-      font-size: 2vh;
-      line-height: 1;
-      width: auto;
-      height: auto;
-    }
-
     .buttonicon {
       margin: 0 auto;
       display: block;
       max-height: 100%;
       width: auto;
-    }
-
-    /* Actions */
-    button,
-    a[role="button"] {
-      flex: 0 0 auto;
-      margin: 0;
-      margin: auto 2.5%;
-      padding: auto 0;
-      height: 5vh;
-      width: 50%;
     }
 
     #delete {
