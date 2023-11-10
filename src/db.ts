@@ -1,6 +1,6 @@
 import { Database as sqlite } from "bun:sqlite";
 
-class DB {
+export class DatabaseManager {
     db: sqlite;
 
     constructor(path: string) {
@@ -56,5 +56,3 @@ class DB {
         this.db.run("DELETE FROM links WHERE filename = ?", [filename]);
     }
 }
-
-export default DB;

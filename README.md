@@ -22,11 +22,12 @@ bun run start
 
 ## Vocabulary
 
-| Term         | Definition                                        | Example                                 |
-| ------------ | ------------------------------------------------- | --------------------------------------- |
-| File         | A file                                            | `magicalFile.png`                       |
-| Public file  | A file publicly accessible by anyone with the URL | `https://i.example.com/publicFile.png`  |
-| Private file | A file only accessible by logged in users         | `https://i.example.com/privateFile.png` |
-| Link         | A link                                            |
+| Term         | Definition                                                   | Example                                                             |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------------- |
+| File         | A file                                                       | `magicalFile.png`                                                   |
+| Public file  | A file publicly accessible by anyone with the URL            | `https://i.example.com/publicFile.png`                              |
+| Private file | A file only accessible by logged in users                    | `https://i.example.com/privateFile.png`                             |
+| Link         | A a long URL to access a private file without authentication | `https://i.example.com/access/da312845-3ce1-4bbf-93ae-b6c6ab0a3306` |
+| Redirect     | A short URL that redirects to a long URL                     | `https://i.example.com/redirectMe`                                  |
 
 [shitty.dl]: https://github.com/tmpim/shitty.dl
