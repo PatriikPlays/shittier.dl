@@ -4,25 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gallery</title>
-    <!-- <link
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-    /> -->
-    <link rel="stylesheet" href="/common.css" />
+    />
+    <link rel="stylesheet" href="/gallery.css" />
   </head>
 
   <body>
     <header>
-      <h1>Gallery (<%=files.length%>)</h1>
+      <nav>
+        <ul>
+          <li><a href="/upload">Upload</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </nav>
 
-      <section>
-        <article>
-          <nav>
-            <a href="logout" role="button">Logout</a>
-            <a href="upload" role="button">Upload</a>
-          </nav>
-        </article>
-      </section>
+      <h1>Gallery (<%=files.length%>)</h1>
     </header>
 
     <main>
@@ -34,27 +32,31 @@
             <div class="buttons">
               <button id="copy">
                 <svg
-                  class="buttonicon"
                   xmlns="http://www.w3.org/2000/svg"
-                  height="1em"
-                  viewBox="0 0 512 512"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
                 >
-                  <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                   <path
-                    d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"
-                  />
+                    d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 0 1-1.75 1.75H8.774a1.75 1.75 0 0 1-1.75-1.75Zm1.75-.25a.25.25 0 0 0-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25Z"
+                  ></path>
+                  <path
+                    d="M1.995 10.749a1.75 1.75 0 0 1 1.75-1.751H5.25a.75.75 0 1 1 0 1.5H3.745a.25.25 0 0 0-.25.25L3.5 20.25c0 .138.111.25.25.25h9.5a.25.25 0 0 0 .25-.25v-1.51a.75.75 0 1 1 1.5 0v1.51A1.75 1.75 0 0 1 13.25 22h-9.5A1.75 1.75 0 0 1 2 20.25l-.005-9.501Z"
+                  ></path>
                 </svg>
               </button>
               <button id="delete">
                 <svg
-                  class="buttonicon"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  width="16"
-                  height="16"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
                 >
                   <path
-                    d="M11 1.75V3h2.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75ZM4.496 6.675l.66 6.6a.25.25 0 0 0 .249.225h5.19a.25.25 0 0 0 .249-.225l.66-6.6a.75.75 0 0 1 1.492.149l-.66 6.6A1.748 1.748 0 0 1 10.595 15h-5.19a1.75 1.75 0 0 1-1.741-1.575l-.66-6.6a.75.75 0 1 1 1.492-.15ZM6.5 1.75V3h3V1.75a.25.25 0 0 0-.25-.25h-2.5a.25.25 0 0 0-.25.25Z"
+                    d="M16 1.75V3h5.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75Zm-6.5 0V3h5V1.75a.25.25 0 0 0-.25-.25h-4.5a.25.25 0 0 0-.25.25ZM4.997 6.178a.75.75 0 1 0-1.493.144L4.916 20.92a1.75 1.75 0 0 0 1.742 1.58h10.684a1.75 1.75 0 0 0 1.742-1.581l1.413-14.597a.75.75 0 0 0-1.494-.144l-1.412 14.596a.25.25 0 0 1-.249.226H6.658a.25.25 0 0 1-.249-.226L4.997 6.178Z"
+                  ></path>
+                  <path
+                    d="M9.206 7.501a.75.75 0 0 1 .793.705l.5 8.5A.75.75 0 1 1 9 16.794l-.5-8.5a.75.75 0 0 1 .705-.793Zm6.293.793A.75.75 0 1 0 14 8.206l-.5 8.5a.75.75 0 0 0 1.498.088l.5-8.5Z"
                   ></path>
                 </svg>
               </button>
@@ -87,22 +89,4 @@
       });
     });
   </script>
-
-  <style>
-    .buttonicon {
-      margin: 0 auto;
-      display: block;
-      max-height: 100%;
-      width: auto;
-    }
-
-    #delete {
-      background-color: #ff8080;
-      border: 0;
-    }
-
-    #delete:hover {
-      background-color: #e24f4f;
-    }
-  </style>
 </html>
