@@ -25,6 +25,14 @@ export default async function (fastify: FastifyInstance) {
 
     fastify.route({
         method: "GET",
+        url: "/upload",
+        handler: async (req, res) => {
+            return res.view("src/frontend/upload.ejs");
+        },
+    });
+
+    fastify.route({
+        method: "GET",
         url: "/gallery",
         onRequest: fastify.authenticate,
         handler: async (req, res) => {

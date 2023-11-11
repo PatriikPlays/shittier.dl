@@ -15,7 +15,6 @@ export default async function (fastify: FastifyInstance) {
             }),
         },
         handler: async (req: any, res: any) => {
-            fastify.logger.debug(req.body.password, fastify.config.password);
             if (req.body.password === fastify.config.password) {
                 res.send({
                     ok: true,

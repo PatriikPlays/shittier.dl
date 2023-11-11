@@ -36,9 +36,6 @@ await fastify.register(viewPlugin, {
         ejs,
     },
 });
-await fastify.register(fastifyStatic, {
-    root: path.join(__dirname, "frontend/static"),
-});
 await fastify.register(frontendRoutes);
 await fastify.register(authRoutes);
 await fastify.register(fileRoutes);

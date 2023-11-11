@@ -40,7 +40,7 @@
       ev.preventDefault();
       button.setAttribute("aria-busy", "true");
       const password = passwordField.value;
-      const response = await fetch(`/api/v1/auth/login`, {
+      const response = await fetch(`/login`, {
         method: "POST",
         headers: {
           "User-Agent": "ShitterDL frontend",
@@ -53,11 +53,11 @@
       const data = await response.json();
 
       if (data?.ok) {
-        const jwt = data.data;
+        const jwt = data.jwt;
         document.cookie = "token=" + jwt;
         location.href = "/gallery";
       } else {
-        alert(`${response.error || ""}: ${response.message || ""}`);
+        alert(`Error ${response.status} ${response.statusText}`);
       }
 
       button.setAttribute("aria-busy", "false");

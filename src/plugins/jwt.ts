@@ -20,7 +20,6 @@ export async function authenticateHook<
         await req.jwtVerify();
     } catch (err) {
         res.send(new ShittierError(403, "Not authenticated"));
-        req.server.logger.debug("User not authenticated.");
     }
 }
 
