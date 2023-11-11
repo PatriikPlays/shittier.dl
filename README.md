@@ -30,8 +30,14 @@ bun run start
 | Link         | A a long URL to access a private file without authentication | `https://i.example.com/access/da312845-3ce1-4bbf-93ae-b6c6ab0a3306` |
 | Redirect     | A short URL that redirects to a long URL                     | `https://i.example.com/redirectMe`                                  |
 
+## Changing password
+
+After changing the access password, **you must also regenerate the JWT secret** to invalidate already logged in sessions!
+
 ## Todo
 
 - Index files in db
+- Move everything to zod
+- Setup wizard
 
 [shitty.dl]: https://github.com/tmpim/shitty.dl

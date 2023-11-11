@@ -4,56 +4,8 @@ import sanitizeFilename from "sanitize-filename";
 import path from "node:path";
 import fs from "node:fs";
 import pump from "pump";
-import { FastifyReply, FastifyRequest } from "fastify";
 
-// this is a bad string search function, and is temporary
-function stringSearch(str: string, pattern: string) {
-    if (pattern[0] === '^' && pattern[pattern.length - 1] === '$') {
-        const patternWithoutMarkers = pattern.slice(1, -1);
-        return str.startsWith(patternWithoutMarkers) && str.endsWith(patternWithoutMarkers);
-    } else if (pattern[0] === '^') {
-        const patternWithoutMarker = pattern.slice(1);
-        return str.startsWith(patternWithoutMarker);
-    } else if (pattern[pattern.length - 1] === '$') {
-        const patternWithoutMarker = pattern.slice(0, -1);
-        return str.endsWith(patternWithoutMarker);
-    } else {
-        return str.includes(pattern);
-    }
-}
-
-export default function(fastify: any, ops: any, done: any) { // TODO: properly do types here
-    fastify.route({
-        method: "GET",
-        url: "/get/:filename",
-        onRequest: (req: FastifyRequest, reply: FastifyReply) => fastify.authenticate(req, reply),
-        
-        schema: {
-            params: Type.Object({
-                filename: Type.String({
-                    maxLength: 64,
-                    minLength: 1,
-                }),
-            }),
-        },
-
-        handler: async (req: any, res: any) => {
-            const { filename } = req.params;
-
-            if (sanitizeFilename(filename) != filename)
-                return res.send(new ShittierError(400, "Invalid filename"));
-
-            const p = path.join(fastify.base, "data", "files", filename);
-
-            if (!fs.existsSync(p)) {
-                return res.send(new ShittierError(404, "Not Found"));
-            }
-
-            const stream = fs.createReadStream(p);
-            return res.code(200).send(stream); // TODO: Set application-type/png and MIME
-        },
-    });
-
+export default function (fastify: any, ops: any, done: any) {
     fastify.route({
         method: "POST",
         url: "/upload",
@@ -62,27 +14,6 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
             const data = await req.file();
             const file = data.file;
             const filename = data.filename;
-
-            if (filename.length > 64)
-                return res.send(new ShittierError(400, "Filename too long"));
-            if (sanitizeFilename(filename) != filename)
-                return res.send(new ShittierError(400, "Invalid filename"));
-
-            let p = path.join(fastify.base, "data", "files", filename);
-
-            try {
-                await fs.promises.stat(p);
-                return res.send(new ShittierError(400, "File already exists"));
-            } catch (err: any) {
-                if (err.code !== "ENOENT") {
-                    fastify.logger.error(
-                        `Failed to stat file ${filename}, ${err.code}`
-                    );
-                    return res.send(
-                        new ShittierError(500, "Internal Server Error")
-                    );
-                }
-            }
 
             let writeStream = fs.createWriteStream(p);
 
@@ -93,14 +24,16 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                             resolve({ ok: true });
                         })
                         .on("error", (e) => {
-                            fastify.logger.error(`Failed to write to ${p}, ${e}`);
+                            fastify.logger.error(
+                                `Failed to write to ${p}, ${e}`
+                            );
                             resolve(
                                 new ShittierError(500, "Internal Server Error")
                             );
                         });
                 })
-            )
-        }
+            );
+        },
     });
 
     // uses post for cc compat
@@ -128,7 +61,9 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 await fs.promises.stat(p);
             } catch (err: any) {
                 if (err.code === "ENOENT") {
-                    return res.send(new ShittierError(400, "File doesn't exist"));
+                    return res.send(
+                        new ShittierError(400, "File doesn't exist")
+                    );
                 } else {
                     fastify.logger.error(
                         `Failed to stat file ${filename}, ${err.code}`
@@ -142,13 +77,18 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
             try {
                 await fs.promises.unlink(p);
             } catch (err: any) {
-                fastify.logger.error(`Failed to unlink file ${filename}, ${err}`);
-                return res.send(new ShittierError(500, "Internal Server Error"));
+                fastify.logger.error(
+                    `Failed to unlink file ${filename}, ${err}`
+                );
+                return res.send(
+                    new ShittierError(500, "Internal Server Error")
+                );
             }
 
             return res.send(
                 await new Promise(async (resolve) => {
-                    fastify.db.deleteLinksPointingToFile(filename)
+                    fastify.db
+                        .deleteLinksPointingToFile(filename)
                         .then(() => {
                             resolve({ ok: true });
                         })
@@ -162,7 +102,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                         });
                 })
             );
-        }
+        },
     });
 
     // uses post for cc compat
@@ -174,14 +114,14 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 filename: Type.String({
                     maxLength: 64,
                     minLength: 1,
-                })
+                }),
             }),
             query: Type.Object({
                 newName: Type.String({
                     maxLength: 64,
                     minLength: 1,
-                })
-            })
+                }),
+            }),
         },
         onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
@@ -199,7 +139,9 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 await fs.promises.stat(p);
             } catch (err: any) {
                 if (err.code === "ENOENT") {
-                    return res.send(new ShittierError(400, "File doesn't exist"));
+                    return res.send(
+                        new ShittierError(400, "File doesn't exist")
+                    );
                 } else {
                     fastify.logger.error(
                         `Failed to stat file ${filename}, ${err.code}`
@@ -254,8 +196,8 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                     return res.send(
                         new ShittierError(500, "Internal Server Error")
                     );
-                });   
-        }
+                });
+        },
     });
 
     // TODO: Somehow implement filtering for no file extension
@@ -269,15 +211,15 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 properties: {
                     extension: {
                         type: "string",
-                        maxLength: 4096 // just in case
+                        maxLength: 4096, // just in case
                     },
                     filename: {
                         type: "string",
                         minLength: 1,
-                        maxLength: 512
-                    }
-                }
-            }
+                        maxLength: 512,
+                    },
+                },
+            },
         },
         onRequest: fastify.authenticate,
         handler: async (req: any, res: any) => {
@@ -287,30 +229,48 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                 await new Promise((resolve) => {
                     fs.readdir(p, (err, data) => {
                         if (err) {
-                            fastify.logger.error(`Failed to list dir ${p}, ${err}`);
+                            fastify.logger.error(
+                                `Failed to list dir ${p}, ${err}`
+                            );
                             return resolve(
                                 new ShittierError(500, "Internal Server Error")
                             );
                         }
 
                         let allowedExtensions: string[] = [];
-                        if (req.query.extension) allowedExtensions = req.query.extension.split("|").map((x: string) => { return x.toLowerCase() });
+                        if (req.query.extension)
+                            allowedExtensions = req.query.extension
+                                .split("|")
+                                .map((x: string) => {
+                                    return x.toLowerCase();
+                                });
 
                         if (req.query.extension || req.query.filename) {
                             let filteredData = [];
 
-                            for (let i=0;i<data.length;i++) {
+                            for (let i = 0; i < data.length; i++) {
                                 let extension: any = data[i].split(".");
                                 if (extension.length == 1) {
                                     extension = null;
                                 } else {
-                                    extension = extension[extension.length-1];
+                                    extension = extension[extension.length - 1];
                                 }
-                            
-                                if (req.query.extension && ( !extension || !allowedExtensions.includes(extension.toLowerCase()) )) continue;
 
-                                if (req.query.filename && !stringSearch(data[i], req.query.filename)) continue;
-                                
+                                if (
+                                    req.query.extension &&
+                                    (!extension ||
+                                        !allowedExtensions.includes(
+                                            extension.toLowerCase()
+                                        ))
+                                )
+                                    continue;
+
+                                if (
+                                    req.query.filename &&
+                                    !stringSearch(data[i], req.query.filename)
+                                )
+                                    continue;
+
                                 filteredData.push(data[i]);
                             }
 
@@ -321,7 +281,7 @@ export default function(fastify: any, ops: any, done: any) { // TODO: properly d
                     });
                 })
             );
-        }
+        },
     });
-    done()
+    done();
 }

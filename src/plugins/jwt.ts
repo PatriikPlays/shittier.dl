@@ -12,16 +12,7 @@ declare module "fastify" {
     }
 }
 
-declare module "@fastify/jwt" {
-    interface FastifyJWT {
-        payload: { id: string };
-        user: {
-            id: string;
-        };
-    }
-}
-
-async function authenticateHook<
+export async function authenticateHook<
     T extends FastifyRequest,
     U extends FastifyReply
 >(req: T, res: U) {
@@ -33,12 +24,21 @@ async function authenticateHook<
     }
 }
 
-export default fp(async (fastify, options) => {
-    if (!process.env.JWT_SECRET)
-        throw new Error("Missing JWT_SECRET env variable"); // regen JWT_SECRET to invalidate all JWTs (JWTs will stay valid when password gets changed)
+export async function isAuthenticated<
+    T extends FastifyRequest,
+    U extends FastifyReply
+>(req: T, res: U) {
+    try {
+        await req.jwtVerify();
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
 
+export default fp(async (fastify, options) => {
     fastify.register(fastifyJwt, {
-        secret: process.env.JWT_SECRET,
+        secret: fastify.config.jwtSecret,
         cookie: {
             cookieName: "token",
             signed: false,
