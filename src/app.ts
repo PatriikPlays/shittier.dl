@@ -2,21 +2,21 @@ import Fastify from "fastify";
 import loggerPlugin from "./plugins/logger";
 import multipartPlugin from "./plugins/multipart";
 import dbPlugin from "./plugins/db";
-import fastifyFormbody from "@fastify/formbody";
-import viewPlugin from "@fastify/view";
 import jwtPlugin from "./plugins/jwt";
-import ejs from "ejs";
-import { setErrorHandler } from "./plugins/error";
-import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
-import fastifyCookie from "@fastify/cookie";
-import path from "node:path";
 import configPlugin from "./plugins/config";
-import fastifyStatic from "@fastify/static";
-import { createDataDirectory } from "./utils";
+import basePathPlugin from "./plugins/basePath";
+import { setErrorHandler } from "./plugins/error";
 import frontendRoutes from "./routes/frontend";
 import authRoutes from "./routes/auth";
 import fileRoutes from "./routes/file";
-import basePathPlugin from "./plugins/basePath";
+import fastifyFormbody from "@fastify/formbody";
+import viewPlugin from "@fastify/view";
+import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import fastifyCookie from "@fastify/cookie";
+import fastifyStatic from "@fastify/static";
+import ejs from "ejs";
+import path from "node:path";
+import { createDataDirectory } from "./utils";
 
 const fastify = Fastify({
     logger: false,
@@ -38,7 +38,7 @@ await fastify.register(viewPlugin, {
 });
 await fastify.register(frontendRoutes);
 await fastify.register(authRoutes);
-await fastify.register(fileRoutes);
+await fastify.register(fileRoutes, { prefix: "/f" });
 
 setErrorHandler(fastify);
 

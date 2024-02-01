@@ -39,47 +39,47 @@ export default async function (fastify: FastifyInstance) {
             const testData = [
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png",
+                    src: "https://i.patriik.one/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png",
+                    src: "https://i.patriik.one/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png",
+                    src: "https://i.patriik.one/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png",
+                    src: "https://i.patriik.one/logs.png",
                 },
                 {
                     name: "logs.png",
-                    src: "https://i.pixium.lol/logs.png",
+                    src: "https://i.patriik.one/logs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
                 {
                     name: "6_4isanadmin.png",
-                    src: "https://i.pixium.lol/3OVxs.png",
+                    src: "https://i.patriik.one/3OVxs.png",
                 },
             ];
 

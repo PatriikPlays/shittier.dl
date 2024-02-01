@@ -8,6 +8,7 @@ import { createWriteStream } from "fs";
 
 export default async function (server: FastifyInstance) {
     const fastify = server.withTypeProvider<TypeBoxTypeProvider>();
+
     fastify.route({
         method: "GET",
         url: "/:filename",
@@ -20,12 +21,14 @@ export default async function (server: FastifyInstance) {
             }),
         },
         handler: async (req, res) => {
-            const { filename } = req.params;
+            const { filename }: any = req.params;
 
             if (sanitizeFilename(filename) != filename)
                 return res.send(new ShittierError(400, "Invalid filename"));
 
-            const location = path.join(fastify.basePath, filename);
+            const location = path.join(fastify.basePath, "files", filename);
+
+            console.log(location)
 
             const file = Bun.file(location);
 
@@ -48,6 +51,7 @@ export default async function (server: FastifyInstance) {
             console.log("Got file");
 
             if (!data) {
+                console.log("no data");
                 return res.send(new ShittierError(400, "Bad request"));
             }
             const { file, filename } = data;
@@ -57,7 +61,7 @@ export default async function (server: FastifyInstance) {
             if (sanitizeFilename(filename) != filename)
                 return res.send(new ShittierError(400, "Invalid filename"));
 
-            const location = path.join(fastify.basePath, filename);
+            const location = path.join(fastify.basePath, "files", filename);
             const actualFile = Bun.file(location);
 
             if (await actualFile.exists()) {

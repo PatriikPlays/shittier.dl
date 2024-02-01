@@ -4,193 +4,166 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gallery</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-    />
   </head>
 
   <body>
     <header>
       <nav>
-        <ul>
-          <li><a href="/upload">Upload</a></li>
-          <li><a href="/logout">Logout</a></li>
-        </ul>
+        <h2>Shittier.dl</h2>
+        <a href="/gallery" class="active">Gallery</a>
+        <a href="/upload">Upload</a>
+        <a href="/settings">Settings</a>
+        <div class="spacer"></div>
+        <a href="/logout" class="logout">Logout</a>
       </nav>
 
       <h1>Gallery (<%=files.length%>)</h1>
     </header>
 
     <main>
-      <section>
-        <%files.forEach((v)=> {%>
+      <%files.forEach((v)=> {%>
         <article>
-          <header>
-            <p><%=v.name%></p>
-            <div class="buttons">
-              <button id="copy">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                >
-                  <path
-                    d="M7.024 3.75c0-.966.784-1.75 1.75-1.75H20.25c.966 0 1.75.784 1.75 1.75v11.498a1.75 1.75 0 0 1-1.75 1.75H8.774a1.75 1.75 0 0 1-1.75-1.75Zm1.75-.25a.25.25 0 0 0-.25.25v11.498c0 .139.112.25.25.25H20.25a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25Z"
-                  ></path>
-                  <path
-                    d="M1.995 10.749a1.75 1.75 0 0 1 1.75-1.751H5.25a.75.75 0 1 1 0 1.5H3.745a.25.25 0 0 0-.25.25L3.5 20.25c0 .138.111.25.25.25h9.5a.25.25 0 0 0 .25-.25v-1.51a.75.75 0 1 1 1.5 0v1.51A1.75 1.75 0 0 1 13.25 22h-9.5A1.75 1.75 0 0 1 2 20.25l-.005-9.501Z"
-                  ></path>
-                </svg>
-              </button>
-              <button id="delete">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                >
-                  <path
-                    d="M16 1.75V3h5.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75Zm-6.5 0V3h5V1.75a.25.25 0 0 0-.25-.25h-4.5a.25.25 0 0 0-.25.25ZM4.997 6.178a.75.75 0 1 0-1.493.144L4.916 20.92a1.75 1.75 0 0 0 1.742 1.58h10.684a1.75 1.75 0 0 0 1.742-1.581l1.413-14.597a.75.75 0 0 0-1.494-.144l-1.412 14.596a.25.25 0 0 1-.249.226H6.658a.25.25 0 0 1-.249-.226L4.997 6.178Z"
-                  ></path>
-                  <path
-                    d="M9.206 7.501a.75.75 0 0 1 .793.705l.5 8.5A.75.75 0 1 1 9 16.794l-.5-8.5a.75.75 0 0 1 .705-.793Zm6.293.793A.75.75 0 1 0 14 8.206l-.5 8.5a.75.75 0 0 0 1.498.088l.5-8.5Z"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-          </header>
-
-          <main>
-            <img src="<%=v.src%>" alt="file named <%=v.name%>" />
-          </main>
+          <div>
+            <button class="transparent"><span class="material-symbols-outlined"> delete_forever </span></button>
+            <p>logs.png</p>
+            <button class="transparent"><span class="material-symbols-outlined"> content_copy </span></button>
+          </div>
+          <img src="<%=v.src%>" alt="file named <%=v.name%>" />
         </article>
-        <%})%>
-      </section>
+      <%})%>
     </main>
   </body>
 
   <script>
-    document.querySelectorAll("#copy").forEach((v) => {
-      v.addEventListener("click", (e) => {
+    document.querySelectorAll('#copy').forEach((v) => {
+      v.addEventListener('click', (e) => {
         const url = e.originalTarget.parentElement.children[1].href;
         navigator.clipboard.writeText(url);
-        alert("Copied.");
+        alert('Copied.');
       });
     });
 
-    document.querySelectorAll("#delete").forEach((v) => {
-      v.addEventListener("click", (e) => {
+    document.querySelectorAll('#delete').forEach((v) => {
+      v.addEventListener('click', (e) => {
         const url = e.originalTarget.parentElement.children[1].href;
 
-        alert("Your mom.");
+        alert('Your mom.');
       });
     });
   </script>
 
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
 
     :root {
       --background: #11191f;
-      --content: #141e26;
-      --primary: #1095c1;
+      --content: #18232c;
+      --primary: #0067c5;
+      --secoundary: #00459c;
       --text: #edf0f3;
+      --border: #676f7b;
     }
 
-    h1 {
-      text-align: center;
-    }
-
-    body > header {
-      padding: 3vh 0;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      color: var(--text);
+      background-color: var(--background);
+      font-family: 'Inter', sans-serif;
     }
 
     nav {
       display: flex;
-      justify-content: center;
+      min-height: 3rem;
+      background-color: var(--content);
     }
 
-    body > main {
+    h2 {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0 1.25rem 0 1.5rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .spacer {
+      width: 100%;
+    }
+
+    nav > a {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0 1.25rem;
+      color: var(--text);
+      transition: all 0.175s;
+    }
+
+    nav > a.active {
+      background-color: var(--secoundary);
+    }
+
+    nav > a:hover {
+      background-color: var(--primary);
+    }
+
+    .logout {
+      border-left: 1px solid var(--border);
+    }
+
+    main {
+      padding: 0 2vw;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 5vh 0;
+    }
+
+    article {
+      width: calc((100% - 4vw) / 12);
+      text-align: center;
+      background-color: var(--content);
+      border-radius: 4px;
+      margin: 1vh 0.5vw;
+      overflow: hidden;
+    }
+
+    article > div {
+      padding: 0;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: 0;
+      font-size: small;
     }
 
-    section {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 90%;
+    button {
+      background-color: var(--primary);
+      border: none;
+      border-radius: 4px;
+      color: var(--text);
+      transition: background-color 0.175s;
     }
 
-    section > article {
-      width: calc(12.5% - 1em);
-      height: 28vh;
-      margin: 1vh 0.4vw;
-      padding: var(--block-spacing-vertical) 0;
-      min-width: 150px;
-      box-sizing: border-box;
-      background-color: var(--content);
-      overflow: hidden;
+    button.transparent {
+      background-color: transparent;
+      aspect-ratio: 1;
+      margin: 0.5vh 0.2vw;
+    }
+
+    button:hover {
+      background-color: var(--secoundary);
     }
 
     img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    article > header {
-      padding: 1vh;
-      margin-bottom: 1vh;
-      text-align: center;
-    }
-
-    header > p {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 1.35vh;
-    }
-
-    header > section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    button {
-      width: 3vw;
-      height: 4vh;
-      border-radius: 4px;
-      transition: all 0.3s;
-      border: 0;
-      margin: 0 5px;
-    }
-
-    .buttons,
-    .buttons > button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #delete {
-      background-color: #db3b3b;
-    }
-
-    #delete:hover {
-      background-color: #d61f1f;
-    }
-
-    svg {
-      height: auto;
-      width: auto;
-      color: white;
+      object-fit: contain;
     }
   </style>
 </html>

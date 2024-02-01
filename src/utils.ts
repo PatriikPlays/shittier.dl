@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
@@ -7,7 +8,7 @@ export function generateID(length: number) {
     let id = "";
 
     for (let i = 0; i < length; i++)
-        id += charset.charAt(Math.floor(Math.random() * charset.length));
+        id += charset.charAt(Math.floor(crypto.randomBytes(1)[0] % charset.length));
 
     return id;
 }
