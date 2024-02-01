@@ -9,6 +9,8 @@
 
 Inspired by [shitty.dl], here comes shittier.dl! Simply said, shittier.dl is a simple file cdn for private use.
 
+# INCOMPLETE
+
 ## Developing
 
 Thanks for your interest in shittier.dl!
